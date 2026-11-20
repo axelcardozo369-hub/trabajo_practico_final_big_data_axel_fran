@@ -18,13 +18,13 @@ def _():
 
 @app.cell
 def _():
-    import duckdb
+    import duckdb
 
-    # Base que genera pipeline.py (solo lectura: cerrar el notebook antes de
-    # volver a correr el pipeline, porque DuckDB bloquea el archivo).
-    con = duckdb.connect(
-        r"C:\Users\Franc\OneDrive\mis proyectos\trabajo_big_data\trabajo_practico_final_big_data_axel_fran\pipeline.duckdb",
-        read_only=True,
+    # Base que genera pipeline.py (solo lectura: cerrar el notebook antes de
+    # volver a correr el pipeline, porque DuckDB bloquea el archivo).
+    con = duckdb.connect(
+        "pipeline.duckdb",
+        read_only=True,
     )
     return (con,)
 
