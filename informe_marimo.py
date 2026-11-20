@@ -6,30 +6,24 @@ app = marimo.App(width="medium")
 
 @app.cell
 def _():
-    return
-
-
-@app.cell
-def _():
     import marimo as mo
+
 
     return (mo,)
 
 
 @app.cell
-def _():
-    import duckdb
+def _(mo):
+    import duckdb
 
-    # Base que genera pipeline.py (solo lectura: cerrar el notebook antes de
-    # volver a correr el pipeline, porque DuckDB bloquea el archivo).
-    con = duckdb.connect(
-        r"C:\Users\Franc\OneDrive\mis proyectos\trabajo_big_data\trabajo_practico_final_big_data_axel_fran\pipeline.duckdb",
-        read_only=True,
-    )
+    # Base que genera pipeline.py, en la misma carpeta que este notebook.
+    # Solo lectura: cerrar el notebook antes de volver a correr el pipeline,
+    # porque DuckDB bloquea el archivo.
+    con = duckdb.connect(str(mo.notebook_dir() / "pipeline.duckdb"), read_only=True)
     return (con,)
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
     ### 1. ¿Cuántos minutos se vieron por género?
@@ -38,7 +32,7 @@ def _(mo):
 
 
 @app.cell
-def _(con, mo):
+def _(con, mo, tabla_final):
     _df = mo.sql(
         f"""
         SELECT
@@ -53,15 +47,15 @@ def _(con, mo):
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    Los primeros 3 generos con los minutos mas visto son: comedia con 49.320 minutos, comedia con 44.070 y terror con 25.453
+    Los 3 géneros con más minutos vistos son: acción con 49.320 minutos, comedia con 44.070 y terror con 25.453.
     """)
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
     ### 2. ¿Cuáles son los 5 títulos más vistos (por cantidad de reproducciones)?
@@ -70,7 +64,7 @@ def _(mo):
 
 
 @app.cell
-def _(con, mo):
+def _(con, mo, tabla_final):
     _df = mo.sql(
         f"""
         SELECT
@@ -86,15 +80,15 @@ def _(con, mo):
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    Los 5 titulos mas vistos son Comedia Familiar, Stranger Cosas, La Casa de Papel, Noche de Terror y El Gran Heist. La que mas reproducciones tiene es Stranger Cosas con 268 reproducciones.
+    Los 5 títulos más vistos son Stranger Cosas (268), Comedia Familiar (267), La Casa de Papel (267), Noche de Terror (266) y El Gran Heist (256). El más visto es Stranger Cosas, con 268 reproducciones.
     """)
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
     ### 3. ¿Cuántos usuarios distintos hay por plan?
@@ -103,7 +97,7 @@ def _(mo):
 
 
 @app.cell
-def _(con, mo):
+def _(con, mo, tabla_final):
     _df = mo.sql(
         f"""
         SELECT
@@ -118,15 +112,15 @@ def _(con, mo):
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    Se puede ver que el plan basico tiene 433 usuarios, el estandar 413 y el premiun con 368.
+    Se puede ver que el plan básico tiene 433 usuarios, el estándar 413 y el premium 368.
     """)
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
     ### 4. ¿Cuál es el dispositivo más usado?
@@ -135,7 +129,7 @@ def _(mo):
 
 
 @app.cell
-def _(con, mo):
+def _(con, mo, tabla_final):
     _df = mo.sql(
         f"""
         SELECT
@@ -151,15 +145,15 @@ def _(con, mo):
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    El dispositivo mas usado es la Smart_tv
+    El dispositivo más usado es el smart_tv, con 634 reproducciones.
     """)
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
     ### 5. ¿Cuál es el promedio de minutos vistos por tipo de contenido?
@@ -168,7 +162,7 @@ def _(mo):
 
 
 @app.cell
-def _(con, mo):
+def _(con, mo, tabla_final):
     _df = mo.sql(
         f"""
         SELECT
@@ -183,10 +177,10 @@ def _(con, mo):
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    El promedio de minutos vistos por contenido son: pelicula 91,77, documental 89,81 y serie con 89,66
+    El promedio de minutos vistos por tipo de contenido es: película 91,77, documental 89,81 y serie 89,66.
     """)
     return
 
